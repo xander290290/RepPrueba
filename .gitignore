@@ -1,14 +1,14 @@
 # Local environment files can contain credentials; keep example templates tracked.
-**/.env
-!.env.example
+# **/.env
+# !.env.example
 
 # Python environments, bytecode, and test caches are generated locally.
-**/.venv/
-**/__pycache__/
-**/.pytest_cache/
-*.py[cod]
+# **/.venv/
+# **/__pycache__/
+# **/.pytest_cache/
+# *.py[cod]
 
 # JavaScript dependencies and compiled build output can be reinstalled/regenerated.
-**/node_modules/
-**/dist/
-**/build/
+# **/node_modules/
+# **/dist/
+# **/build/

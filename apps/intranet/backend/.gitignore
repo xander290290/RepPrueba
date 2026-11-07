@@ -1,8 +1,8 @@
 # Local configuration may contain secrets; commit only the .env.example template.
-.env
+# .env
 
 # Virtual environment and generated Python/test files.
-.venv/
-__pycache__/
-.pytest_cache/
-*.py[cod]
+# .venv/
+# __pycache__/
+# .pytest_cache/
+# *.py[cod]
