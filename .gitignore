@@ -1,0 +1,14 @@
+# Environment files and secrets
+**/.env
+!.env.example
+
+# Python virtual environments and generated files
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+*.py[cod]
+
+# JavaScript dependencies and build output
+**/node_modules/
+**/dist/
+**/build/

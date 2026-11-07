@@ -1,0 +1,8 @@
+Contiene esquemas Pydantic que validan las entradas y definen las respuestas HTTP:
+
+- `auth.py`: solicitudes y respuestas de autenticación.
+- `user.py`: creación y representación pública de usuarios.
+- `role.py`: respuestas de roles y permisos.
+- `__init__.py`: marca la carpeta como paquete Python.
+
+Los esquemas evitan exponer datos internos como los hashes de contraseñas.

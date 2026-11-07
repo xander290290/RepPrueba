@@ -1,0 +1,1 @@
+﻿Carpeta del frontend de la web pública del centro. Aquí se desarrollará la parte visual, navegación y páginas informativas accesibles sin autenticación.

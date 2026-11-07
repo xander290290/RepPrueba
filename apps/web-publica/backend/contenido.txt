@@ -1,0 +1,1 @@
+﻿Carpeta del backend de la web pública. Aquí se implementará la API pública para noticias, eventos, documentos y contenido institucional.

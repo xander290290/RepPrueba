@@ -1,0 +1,1 @@
+﻿Modelos reutilizables compartidos entre aplicaciones. Aquí se definirán entidades comunes que puedan usarse por varias partes del proyecto.

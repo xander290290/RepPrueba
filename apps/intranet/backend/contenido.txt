@@ -1,0 +1,10 @@
+Carpeta raíz del backend de la intranet. Contiene:
+
+- `app\`: código de FastAPI, configuración, rutas, modelos, esquemas, persistencia y servicios.
+- `tests\`: pruebas automatizadas.
+- `README.md`: preparación del entorno, instalación, configuración, arranque y pruebas.
+- `guia-fastapi.txt`: arquitectura y relación entre los módulos.
+- `requirements.txt`: dependencias Python.
+- `.env.example`: plantilla de variables de entorno; la configuración privada se guarda en `.env`.
+- `.gitignore`: excluye secretos, entorno virtual y archivos temporales.
+- `.venv\`: entorno Python local generado con `py -m venv .venv`; contiene el intérprete y paquetes instalados y no se versiona.

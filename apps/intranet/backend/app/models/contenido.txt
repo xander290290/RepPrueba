@@ -1,0 +1,6 @@
+Contiene las estructuras de los documentos almacenados:
+
+- `user.py`: campos del usuario.
+- `role.py`: campos del rol y permisos asociados.
+- `permission.py`: estructura de un permiso.
+- `__init__.py`: marca la carpeta como paquete Python.

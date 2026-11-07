@@ -1,0 +1,1 @@
+﻿Constantes reutilizables del proyecto, como roles, mensajes, configuración global y valores fijos compartidos.

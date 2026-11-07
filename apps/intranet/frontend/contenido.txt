@@ -1,0 +1,1 @@
+﻿Carpeta del frontend de la intranet. Aquí se desarrollará la interfaz privada para profesores y dirección con autenticación y permisos.

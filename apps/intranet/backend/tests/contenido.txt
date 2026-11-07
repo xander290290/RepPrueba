@@ -1,0 +1,9 @@
+Contiene las pruebas automatizadas del backend:
+
+- `conftest.py`: cliente de FastAPI, datos de prueba y base MongoDB simulada aislada.
+- `test_auth.py`: login, renovación, logout y protección de rutas.
+- `test_users.py`: alta autorizada y permisos para listar usuarios.
+- `test_roles.py`: consulta de roles, permisos y rol inexistente.
+- `smoke_mongodb.py`: prueba opcional de integración HTTP con MongoDB local real; usa y elimina una base temporal aislada.
+
+Las pruebas automatizadas se ejecutan desde la carpeta del backend con `python -m pytest` y no necesitan MongoDB real. El smoke test se ejecuta por separado con `python tests/smoke_mongodb.py` y sí requiere MongoDB local.

@@ -1,0 +1,1 @@
+﻿Utilidades compartidas para validaciones, helpers, serialización, formatos, seguridad y otras funciones transversales.

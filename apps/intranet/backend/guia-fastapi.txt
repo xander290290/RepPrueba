@@ -1,0 +1,310 @@
+GUIA DEL BACKEND DE LA INTRANET: FASTAPI, ARCHIVOS Y FLUJO
+
+¿QUE ES FASTAPI Y COMO FUNCIONA?
+
+FastAPI es el framework de Python que recibe peticiones HTTP y devuelve respuestas, normalmente en JSON. La aplicacion se crea en app/main.py y registra los routers que contienen las rutas de la API.
+
+El recorrido de una peticion es:
+
+1. El cliente envia una peticion a una ruta, por ejemplo POST /api/intranet/v1/auth/login.
+2. FastAPI encuentra el endpoint declarado en un modulo de app/api.
+3. Valida los datos de entrada con un esquema de app/schemas.
+4. Ejecuta las dependencias, por ejemplo autenticacion y permisos, declaradas con Depends().
+5. El endpoint delega la operacion a app/services.
+6. El servicio lee o modifica los datos en MongoDB mediante app/db y usa las estructuras de app/models.
+7. FastAPI valida y serializa la respuesta y devuelve el codigo HTTP apropiado.
+
+ESTRUCTURA Y FUNCION DE LOS ARCHIVOS
+
+Archivos de la raiz de backend
+
+requirements.txt
+Lista las dependencias Python necesarias para ejecutar el backend y las pruebas.
+
+README.md
+Explica desde cero como preparar el entorno, instalar dependencias, configurar MongoDB, arrancar la API y ejecutar las pruebas automatizadas.
+
+.gitignore
+Evita incluir en el repositorio la configuracion local con secretos, el entorno virtual y los archivos temporales de Python y pytest.
+
+.env.example
+Plantilla de configuracion local. Debe copiarse como .env y completarse; no se deben guardar secretos reales en el repositorio. La clave JWT debe tener al menos 32 caracteres. Las variables INITIAL_ADMIN_* son opcionales y solo crean el primer administrador cuando no hay usuarios.
+
+guia-fastapi.txt
+Esta guia explica la arquitectura, la funcion de los archivos y las dependencias entre componentes. Para instalar y probar el backend, consultar README.md.
+
+app/__init__.py
+Marca app como paquete Python.
+
+app/main.py
+Crea FastAPI, conecta los routers, abre y cierra la conexion de MongoDB durante el ciclo de vida de la aplicacion e inicializa indices y roles. En entorno test no abre una conexion real.
+
+app/api/__init__.py
+Marca el paquete de rutas.
+
+app/api/auth.py
+Expone login, renovacion de refresh token y logout. Delega la autenticacion y gestion de sesiones en app/services/auth_service.py.
+
+app/api/users.py
+Expone el registro administrativo, el perfil del usuario autenticado y el listado paginado de usuarios. Utiliza esquemas, dependencias de permisos y app/services/user_service.py.
+
+app/api/roles.py
+Expone la consulta autenticada de roles y los permisos asociados a cada rol. Delega en app/services/role_service.py.
+
+app/core/__init__.py
+Marca el paquete de configuracion y seguridad.
+
+app/core/config.py
+Lee variables de entorno y valida la configuracion sensible antes de iniciar la aplicacion.
+
+app/core/security.py
+Genera y verifica hashes de contrasenas y JWT. Tambien valida sesiones y proporciona dependencias para obtener el usuario actual y exigir permisos. Logout revoca la sesion, invalidando sus access y refresh tokens.
+
+app/db/__init__.py
+Marca el paquete de persistencia.
+
+app/db/mongodb.py
+Proporciona la base MongoDB asociada a la aplicacion a las rutas y servicios. Devuelve un error 503 explicito si la base no esta disponible.
+
+app/db/init_db.py
+Crea el indice unico de correo y el indice TTL de sesiones, instala los roles predeterminados y, si esta configurado y no hay usuarios, crea el primer administrador.
+
+app/models/__init__.py
+Marca el paquete de modelos de datos.
+
+app/models/user.py
+Describe el documento de usuario almacenado en MongoDB.
+
+app/models/role.py
+Describe un rol y los permisos que concede.
+
+app/models/permission.py
+Describe la estructura de un permiso del sistema.
+
+app/models/audit_log.py
+Describe los campos permitidos en un evento de auditoria.
+
+app/schemas/__init__.py
+Marca el paquete de esquemas de la API.
+
+app/schemas/auth.py
+Valida las solicitudes de login y refresh y define las respuestas de tokens y mensajes.
+
+app/schemas/user.py
+Valida el alta de usuarios y define la respuesta publica de usuario. No expone password_hash.
+
+app/schemas/role.py
+Define el formato de respuesta de roles y permisos.
+
+app/services/__init__.py
+Marca el paquete de logica de negocio.
+
+app/services/auth_service.py
+Autentica usuarios, crea sesiones, rota refresh tokens y revoca sesiones.
+
+app/services/user_service.py
+Crea, serializa y consulta usuarios. El almacenamiento usa identificadores UUID en formato string y el correo tiene indice unico.
+
+app/services/role_service.py
+Consulta roles y permisos en MongoDB.
+
+app/services/audit_service.py
+Registra eventos de seguridad en audit_logs con fecha UTC, accion, resultado e identificadores internos opcionales. No guarda correos, contrasenas, hashes ni tokens.
+
+tests/conftest.py
+Configura un cliente de pruebas, una base MongoDB simulada aislada y datos de prueba. Los tests no conectan con la base de desarrollo.
+
+tests/test_auth.py
+Comprueba login correcto e incorrecto, proteccion de rutas, rotacion de refresh token y revocacion de sesion.
+
+tests/test_users.py
+Comprueba que un administrador pueda crear usuarios y que un profesor sin permiso no pueda listar usuarios.
+
+tests/test_roles.py
+Comprueba la lectura autenticada de roles y permisos, y el error para un rol inexistente.
+
+tests/test_audit.py
+Comprueba que se registren los inicios de sesion correctos e incorrectos, el cierre de sesion y el alta de usuarios sin guardar credenciales.
+
+tests/smoke_mongodb.py
+Prueba opcional de integracion HTTP contra MongoDB local real. Inicia una API en un puerto libre, crea datos temporales aleatorios, valida los flujos principales y elimina su base temporal al terminar. No se ejecuta como parte de pytest.
+
+DEPENDENCIAS ENTRE COMPONENTES
+
+En este apartado, A -> B significa que el componente A importa o utiliza B para realizar su trabajo. No significa que B se instale aparte: las dependencias externas se enumeran en requirements.txt.
+
+app/main.py -> app/api/*
+main importa y registra los routers para que FastAPI publique los endpoints de autenticacion, usuarios y roles.
+
+app/main.py -> app/db/init_db.py
+Al iniciar el backend, main llama a la inicializacion para crear indices y roles predeterminados y, si se ha configurado, el primer administrador.
+
+app/api/* -> app/schemas/*
+Las rutas usan los esquemas para validar los datos recibidos y definir la forma de las respuestas. Esto evita aceptar entradas mal formadas y exponer campos internos como el hash de la contrasena.
+
+app/api/* -> app/core/security.py
+Las rutas protegidas usan las dependencias de seguridad para identificar al usuario actual y comprobar sus permisos antes de ejecutar la operacion.
+
+app/api/* -> app/db/mongodb.py
+Las rutas obtienen la base de datos de la aplicacion mediante esta dependencia, sin abrir conexiones propias ni duplicar el acceso a MongoDB.
+
+app/api/* -> app/services/*
+Las rutas delegan en servicios las operaciones de negocio. Asi los endpoints se centran en HTTP, validacion y codigos de respuesta, y la logica puede reutilizarse y probarse.
+
+app/api/auth.py -> app/services/audit_service.py
+Registra los inicios de sesion correctos e incorrectos y los cierres de sesion.
+
+app/api/users.py -> app/services/audit_service.py
+Registra las altas de usuario con el identificador del administrador que las realiza y el identificador del usuario creado.
+
+app/services/* -> app/core/security.py
+Los servicios de autenticacion y usuarios usan las funciones de seguridad para verificar contrasenas y crear tokens o hashes de forma centralizada y coherente.
+
+app/services/audit_service.py -> audit_logs en MongoDB
+Guarda eventos de auditoria sin incluir contrasenas, hashes, tokens ni correos. La retencion automatica aun no esta configurada.
+
+app/services/* -> app/db
+Los servicios necesitan consultar o modificar MongoDB para autenticar usuarios, administrar sesiones, guardar cuentas y recuperar roles.
+
+app/core/security.py -> app/core/config.py
+La seguridad necesita la clave y el algoritmo configurados para firmar y validar tokens, y los tiempos de expiracion para establecer su validez.
+
+app/core/security.py -> app/db/mongodb.py
+Al validar una peticion protegida, la seguridad consulta la sesion y el usuario en la base de datos. Asi puede rechazar sesiones revocadas o cuentas desactivadas, aunque el JWT no haya expirado.
+
+app/db/init_db.py -> app/core/config.py
+La inicializacion usa la configuracion para conocer si se ha definido un administrador inicial y con que datos crearlo.
+
+app/db/init_db.py -> app/core/security.py
+Si crea el administrador inicial, utiliza la funcion compartida de hash para no guardar su contrasena en texto plano.
+
+tests/* -> app/main.py
+Las pruebas crean un cliente HTTP de FastAPI y ejercitan la aplicacion como lo haria un cliente real, verificando rutas, respuestas y protecciones.
+
+tests/* -> dependencias sustituidas por una base aislada
+Las pruebas reemplazan el acceso a MongoDB por una base simulada y separada. Esto evita modificar datos reales y hace que los resultados sean repetibles.
+
+Los modelos describen los documentos internos. Los esquemas controlan el formato que entra y sale por HTTP. Los servicios concentran la logica de negocio y las rutas conectan esa logica con FastAPI.
+
+ENDPOINTS IMPLEMENTADOS
+
+Todas las rutas usan el prefijo /api/intranet/v1. Se pueden probar desde
+http://127.0.0.1:8000/docs cuando el backend esta en marcha.
+
+Las rutas protegidas requieren el access_token obtenido al iniciar sesion.
+Se envia en la cabecera HTTP:
+
+Authorization: Bearer <access_token>
+
+El refresh_token se usa unicamente en la ruta de renovacion. No sustituye al
+access_token para acceder a las rutas protegidas.
+
+AUTENTICACION
+
+POST /api/intranet/v1/auth/login
+Inicia sesion con las credenciales de un usuario activo.
+
+Entrada JSON:
+{
+  "email": "pepe@centro.es",
+  "password": "contrasena"
+}
+
+Respuesta correcta: access_token, refresh_token, token_type ("bearer") y
+expires_in (duracion del access_token en segundos). Si las credenciales no
+son correctas, devuelve HTTP 401. La respuesta no incluye la contrasena.
+
+POST /api/intranet/v1/auth/refresh
+Renueva la pareja de tokens sin volver a enviar el correo y la contrasena.
+El refresh_token se rota: hay que guardar y utilizar el nuevo valor recibido;
+el anterior deja de ser valido.
+
+Entrada JSON:
+{
+  "refresh_token": "<refresh_token_actual>"
+}
+
+Respuesta correcta: el mismo formato de tokens que en login. Si el token no
+es valido, ha caducado o ya se habia utilizado, devuelve HTTP 401.
+
+POST /api/intranet/v1/auth/logout
+Cierra la sesion asociada al access_token y la revoca en el servidor. Desde
+ese momento, los tokens de esa sesion dejan de servir para las rutas
+protegidas.
+
+Entrada: no requiere cuerpo JSON; requiere el access_token en la cabecera
+Authorization.
+
+Respuesta correcta: un objeto con el mensaje "Sesion cerrada correctamente."
+
+USUARIOS
+
+POST /api/intranet/v1/users/register
+Crea una cuenta. No es un registro publico: requiere un usuario autenticado
+con el permiso users.write (el rol admin lo tiene por defecto).
+
+Entrada JSON:
+{
+  "name": "Ana",
+  "surname": "Lopez",
+  "email": "ana@centro.es",
+  "password": "una-contrasena-segura",
+  "role": "profesor"
+}
+
+name y email son obligatorios; surname puede omitirse y role, si se omite,
+vale "profesor". La contrasena debe tener entre 12 y 128 caracteres. Devuelve
+HTTP 201 y los datos publicos del usuario creado: id, nombre, apellidos,
+correo, roles y fecha de creacion. No devuelve el hash de la contrasena.
+
+GET /api/intranet/v1/users/me
+Devuelve el perfil del usuario identificado por el access_token. No requiere
+un permiso administrativo adicional.
+
+Entrada: no requiere cuerpo ni parametros; requiere access_token.
+
+Respuesta correcta: id, nombre, apellidos, correo, roles y fecha de creacion
+del usuario actual.
+
+GET /api/intranet/v1/users
+Lista usuarios. Requiere el permiso users.read (el rol admin lo tiene por
+defecto) y un access_token.
+
+Parametros de consulta opcionales:
+- limit: cantidad maxima de resultados, entre 1 y 100; por defecto 50.
+- skip: cantidad de resultados que se omiten al principio; por defecto 0.
+
+Ejemplo: GET /api/intranet/v1/users?limit=20&skip=0
+
+Respuesta correcta: una lista de usuarios con sus datos publicos, sin hashes
+de contrasena.
+
+ROLES Y PERMISOS
+
+GET /api/intranet/v1/roles
+Lista los roles disponibles y sus descripciones. Requiere access_token, pero
+no un permiso administrativo adicional.
+
+Entrada: no requiere cuerpo ni parametros.
+
+Respuesta correcta: una lista de objetos con name y description para cada rol.
+
+GET /api/intranet/v1/roles/{role_name}/permissions
+Consulta los permisos asociados al rol indicado en la ruta. Requiere
+access_token, pero no un permiso administrativo adicional.
+
+Ejemplo: GET /api/intranet/v1/roles/admin/permissions
+
+Respuesta correcta: una lista de cadenas con los permisos del rol. Si el rol
+no existe, devuelve HTTP 404.
+
+FastAPI devuelve HTTP 422 cuando el cuerpo o los parametros no superan la
+validacion del esquema. Las rutas protegidas rechazan credenciales ausentes o
+invalidas; las operaciones con permisos tambien rechazan usuarios sin el
+permiso requerido.
+
+El rol admin tiene todos los permisos. El alta de cuentas requiere autorizacion; no existe un registro publico. Para el primer arranque se puede configurar INITIAL_ADMIN_EMAIL, INITIAL_ADMIN_NAME e INITIAL_ADMIN_PASSWORD en el .env local. El administrador inicial solo se crea cuando la coleccion users esta vacia.
+
+Despues de crear el administrador inicial, quitar esas tres variables del .env local para no conservar la contrasena de provisionamiento.
+
+Para instalar las dependencias, configurar y arrancar el backend, consultar README.md. Ese archivo tambien explica como ejecutar las pruebas automatizadas. Las pruebas usan mongomock y no requieren una instancia MongoDB.

@@ -1,0 +1,7 @@
+Contiene las capacidades transversales de la aplicación:
+
+- `config.py`: carga y valida variables de entorno.
+- `security.py`: hash de contraseñas, JWT, identificación de sesiones y dependencias de autorización.
+- `__init__.py`: marca la carpeta como paquete Python.
+
+Las rutas y servicios usan estos componentes para aplicar configuración y seguridad de forma uniforme.

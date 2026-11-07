@@ -1,0 +1,1 @@
+Paquete principal del backend FastAPI. `main.py` crea la aplicación, registra las rutas y administra el ciclo de vida de MongoDB. `__init__.py` permite importar `app` como paquete Python. Las subcarpetas `api`, `core`, `db`, `models`, `schemas` y `services` separan rutas, seguridad/configuración, persistencia, datos, validación y lógica de negocio.

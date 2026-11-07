@@ -1,0 +1,1 @@
+﻿Documentación específica de la intranet: autenticación, roles, permisos y módulos funcionales internos del centro.

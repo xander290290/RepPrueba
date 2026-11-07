@@ -1,0 +1,8 @@
+Contiene las rutas HTTP de la intranet:
+
+- `auth.py`: login, renovación de tokens y logout.
+- `users.py`: registro autorizado, perfil y listado de usuarios.
+- `roles.py`: consulta de roles y permisos.
+- `__init__.py`: marca la carpeta como paquete Python.
+
+Las rutas validan las peticiones y conectan los esquemas, controles de acceso y servicios.

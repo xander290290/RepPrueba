@@ -1,0 +1,6 @@
+Contiene la lógica de negocio utilizada por las rutas:
+
+- `auth_service.py`: autenticación, sesiones, rotación de refresh tokens y revocación.
+- `user_service.py`: creación, serialización y consulta de usuarios.
+- `role_service.py`: consulta de roles y permisos.
+- `__init__.py`: marca la carpeta como paquete Python.

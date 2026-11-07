@@ -1,0 +1,5 @@
+Contiene el acceso a la base de datos:
+
+- `mongodb.py`: dependencia de FastAPI que obtiene la conexión MongoDB asociada a la aplicación.
+- `init_db.py`: crea índices y roles predeterminados y puede provisionar el primer administrador.
+- `__init__.py`: marca la carpeta como paquete Python.
