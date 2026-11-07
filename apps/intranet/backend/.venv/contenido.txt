@@ -1,0 +1,14 @@
+ENTORNO VIRTUAL DE PYTHON
+
+Esta carpeta fue creada al ejecutar `py -m venv .venv` desde la carpeta del backend. Es un entorno aislado para que Python y los paquetes instalados para esta API no se mezclen con los de otros proyectos del ordenador.
+
+Su contenido lo genera Python:
+
+- `pyvenv.cfg`: indica la configuración y el Python base utilizado para crear el entorno.
+- `Scripts\`: contiene el intérprete Python del entorno, pip y ejecutables de las herramientas instaladas.
+- `Lib\site-packages\`: contiene las dependencias Python instaladas desde requirements.txt, como FastAPI, PyMongo, PyJWT, pytest y mongomock.
+- `Include\`: espacio para cabeceras requeridas por algunos paquetes nativos.
+
+No se deben mover, renombrar ni editar manualmente estos archivos y carpetas. Para instalar paquetes se usa `python -m pip install -r requirements.txt`; para recrear el entorno se puede borrar solo esta carpeta y volver a ejecutar `py -m venv .venv` e instalar las dependencias.
+
+La carpeta `.venv` está excluida del repositorio mediante `.gitignore`; es un entorno local generado, no parte del código fuente.
