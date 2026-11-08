@@ -37,7 +37,7 @@ La solución se dividirá en dos bloques funcionalmente independientes:
 Dependencias principales:
 - frontend con TypeScript; el framework queda a elección del equipo
 - backend en PHP sin framework, según la memoria
-- base de datos relacional MySQL o MariaDB
+- base de datos relacional MySQL
 - backoffice con CRUD para gestionar noticias, documentos y programas
 - URLs amigables, `sitemap.xml` y revisión de accesibilidad WCAG
 - sin acceso a datos internos de la intranet ni uso de su sesión o autenticación
@@ -63,12 +63,12 @@ Dependencias principales:
 #### Frontend
 - Astro con TypeScript (decisión de implementación del equipo; la memoria deja el framework a elección)
 - diseño responsive
-- páginas estáticas alineadas con el mapa de secciones de la memoria, con contenido dinámico conectado a la API cuando se implemente
+- páginas renderizadas en servidor, con páginas, noticias y programas cargados desde PHP/MySQL
 - acceso a la intranet mediante enlace configurable a su aplicación independiente; no comparte sesión ni autenticación
 
 #### Backend y persistencia
 - PHP sin framework (la memoria descarta Laravel)
-- MySQL o MariaDB, con relaciones y claves foráneas
+- MySQL, con relaciones y claves foráneas
 - backoffice CRUD para noticias, documentos y programas
 - separación entre páginas/secciones y sus contenidos
 - modelo relacional con normalización mínima en 3FN
@@ -234,11 +234,12 @@ Preba/
 └─ README.md
 ```
 
-El frontend público ya tiene un arranque funcional en Astro con TypeScript y
-genera las ocho páginas iniciales del mapa de secciones. El backend PHP de la
-web pública y el frontend de la intranet siguen siendo estructuras iniciales.
-`shared/` también es una estructura reservada. No existen todavía
-`docker-compose.yml` ni `docs/arquitectura-general.md`.
+El frontend público usa Astro Node con TypeScript y carga el mapa de secciones,
+las noticias y los programas desde la API PHP/MySQL en cada petición. El
+backend PHP sin framework ofrece endpoints públicos de lectura y un entorno
+local Docker Compose con MySQL. El frontend
+de la intranet sigue siendo una estructura inicial. `shared/` también es una
+estructura reservada. No existe todavía `docs/arquitectura-general.md`.
 
 ## Dependencias por aplicación
 
@@ -247,7 +248,7 @@ web pública y el frontend de la intranet siguen siendo estructuras iniciales.
 Debe depender de:
 - frontend Astro con TypeScript
 - backend PHP sin framework
-- base de datos relacional MySQL o MariaDB
+- base de datos relacional MySQL
 - backoffice CRUD para noticias, documentos y programas
 - motor de rutas y renderizado para las páginas y el menú jerárquico
 
@@ -256,8 +257,9 @@ No debe depender directamente de:
 - roles de profesorado
 - gestión de ausencias, guardias o incidencias internas
 
-El frontend público ya cuenta con páginas iniciales; el backend público y su
-conexión a MySQL/MariaDB todavía no están implementados.
+El frontend público renderiza dinámicamente páginas, navegación, noticias y
+programas desde el backend. La API ofrece lectura; las herramientas de
+escritura editorial y el backoffice siguen pendientes.
 
 ### Intranet
 
@@ -303,8 +305,9 @@ en las fases siguientes. Esto no cambia el alcance oficial de las fases de
 intranet ni la separación entre aplicaciones.
 
 El diseño inicial de datos de ambas aplicaciones está recogido en
-[el documento de esquema](docs/esquema-inicial-datos.md); debe revisarse y
-aprobarse antes de dar por cerrado este entregable.
+[el documento de esquema](docs/esquema-inicial-datos.md) y ha sido aprobado por
+el equipo. El backend público inicializa las tablas del modelo al crear un
+volumen MySQL nuevo.
 
 ## Roles iniciales de la intranet
 
@@ -385,12 +388,12 @@ Ejemplos:
 
 Cada aplicación debe tener su propia configuración local y plantilla de
 variables, sin compartir secretos ni bases de datos. El backend de intranet
-usa [su plantilla `.env.example`](apps/intranet/backend/.env.example). La
-configuración de la web pública se definirá al implementar su backend PHP.
-Las direcciones locales previstas son:
+usa [su plantilla `.env.example`](apps/intranet/backend/.env.example). El
+backend público usa [su plantilla `.env.example`](apps/web-publica/backend/.env.example)
+y Docker Compose. Las direcciones locales son:
 
 ```env
-Web pública: frontend http://localhost:3000; backend local (puerto por definir)
+Web pública: frontend http://localhost:4321; backend http://127.0.0.1:8080
 Intranet: backend http://127.0.0.1:8000
 ```
 
@@ -413,8 +416,13 @@ verificado:
 - la autenticación básica de la intranet
 - el núcleo mínimo de roles y permisos de la intranet
 
-Las pruebas automatizadas aportan evidencia técnica, pero no sustituyen la
-revisión y aprobación del esquema y de la temporalización por el equipo.
+El equipo ha aprobado el esquema y la temporalización (dos personas, 8 horas
+semanales por persona). La ejecución real de la persistencia pública aún debe
+verificarse con Docker Desktop en marcha. La suite de intranet pasa sus 9
+pruebas; por tanto, quedan verificados sus requisitos técnicos de autenticación
+y permisos. La validación pendiente corresponde al arranque añadido de la web
+pública en la planificación del equipo, no a un requisito adicional de la
+memoria para la Fase 1.
 El arranque técnico de la web pública se incluye como decisión de la
 temporalización del proyecto, no como requisito explícito de la memoria para
 la Fase 1 de intranet. La web pública completa, OAuth completo y los módulos
@@ -425,7 +433,7 @@ esa fase.
 
 - [Esquema inicial de datos](docs/esquema-inicial-datos.md)
 - [Especificación de endpoints](docs/especificacion-endpoints.md)
-- [Temporalización provisional del proyecto](docs/temporalizacion.md)
+- [Temporalización aprobada del proyecto](docs/temporalizacion.md)
 - [Privacidad y tratamiento de datos de la intranet](apps/intranet/docs/privacidad-datos.md)
 
 ## Nota

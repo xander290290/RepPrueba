@@ -1,0 +1,5 @@
+.env
+.git
+tests
+contenido.txt
+compose.yaml

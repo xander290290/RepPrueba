@@ -1,10 +1,9 @@
 Código fuente del frontend Astro con TypeScript.
 
 - `components\`: layout común, cabecera/navegación y pie.
-- `data\`: contenido tipado inicial de las secciones públicas.
-- `pages\`: portada y páginas informativas estáticas.
+- `lib\`: cliente tipado para consultar la API pública durante el renderizado.
+- `pages\`: portada, páginas informativas y noticias renderizadas en servidor.
 - `styles\`: hoja de estilos global y adaptable.
-- `services\` y `types\`: espacios reservados para el cliente de API y tipos propios cuando se conecte el backend.
 - `env.d.ts`: tipos de Astro y de la variable `PUBLIC_INTRANET_URL`.
 
-El contenido editorial es estático y provisional hasta que se implemente la API PHP.
+Las páginas públicas se renderizan con Astro Node y obtienen sus datos del backend PHP/MySQL en cada petición.

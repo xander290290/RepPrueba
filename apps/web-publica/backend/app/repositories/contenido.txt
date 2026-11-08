@@ -1,1 +1,1 @@
-Acceso a datos de MySQL/MariaDB. Agrupará las consultas parametrizadas para leer y guardar páginas, contenidos y entidades editoriales, manteniendo el SQL separado de controladores y servicios.
+`public_content_repository.php` agrupa consultas PDO parametrizadas de lectura para navegación, páginas, noticias y programas, manteniendo el SQL separado del enrutado HTTP.

@@ -1,7 +1,7 @@
 Componentes Astro reutilizables de la interfaz:
 
 - `SiteLayout.astro`: estructura HTML común, idioma español, metadatos de título/descripción, enlace para saltar al contenido, hoja de estilos y composición de cabecera, contenido y pie.
-- `SiteHeader.astro`: identidad del centro, navegación a las ocho secciones públicas y enlace configurable a la intranet independiente.
+- `SiteHeader.astro`: identidad del centro, navegación cargada desde la API y enlace configurable a la intranet independiente.
 - `SiteFooter.astro`: pie con nombre/localización del centro y enlace a la intranet.
 
-Los componentes usan semántica HTML y estilos con estados de foco para facilitar la navegación accesible. No existe aquí un formulario de autenticación de la intranet.
+Los componentes usan semántica HTML y estilos con estados de foco para facilitar la navegación accesible. La cabecera obtiene las páginas visibles del backend en cada petición. No existe aquí un formulario de autenticación de la intranet.

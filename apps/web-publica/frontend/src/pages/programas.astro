@@ -1,0 +1,41 @@
+---
+import SiteLayout from "../components/SiteLayout.astro";
+import { getActivePrograms } from "../lib/public-api";
+
+const programs = await getActivePrograms();
+---
+
+<SiteLayout
+  title="Programas"
+  description="Planes y programas educativos del IES Ramón Arcas Meca."
+>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="eyebrow">IES Ramón Arcas Meca</p>
+      <h1>Programas</h1>
+      <p>Planes y programas educativos de nuestra comunidad.</p>
+    </div>
+  </section>
+
+  <section class="content-section programs-page">
+    {programs.length > 0 ? (
+      <div class="card-grid">
+        {programs.map((program) => (
+          <article class="info-card">
+            <p class="eyebrow">{program.category}</p>
+            <h2>{program.name}</h2>
+            <p>{program.description}</p>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p>No hay programas publicados en este momento.</p>
+    )}
+  </section>
+</SiteLayout>
+
+<style>
+  .programs-page .info-card {
+    border-left: 4px solid var(--forest-light);
+  }
+</style>

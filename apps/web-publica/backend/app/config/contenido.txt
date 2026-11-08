@@ -1,1 +1,3 @@
-Configuración de la aplicación, lectura y validación de variables de entorno y opciones no secretas. Las credenciales reales de MySQL/MariaDB no se guardarán en el repositorio ni se expondrán desde `public\`.
+Configuración de la aplicación y opciones no secretas. Las credenciales locales
+se leen desde variables de entorno y no se guardan en el repositorio ni se
+exponen desde `public\`.

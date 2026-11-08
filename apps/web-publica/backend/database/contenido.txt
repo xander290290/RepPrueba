@@ -1,1 +1,4 @@
-Esquema SQL inicial, migraciones y datos de desarrollo para MySQL/MariaDB. El diseño seguirá el esquema documentado del proyecto, con claves foráneas, relaciones necesarias y separación entre la jerarquía de páginas y sus contenidos.
+`001_initial_schema.sql` crea en MySQL las tablas del modelo relacional inicial
+aprobado. `002_seed_public_pages.sql` inserta la portada y las secciones
+iniciales. Compose ejecuta ambos archivos al crear por primera vez un volumen;
+los cambios posteriores requieren migraciones.

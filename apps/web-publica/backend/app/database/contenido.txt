@@ -1,1 +1,3 @@
-Conexión y utilidades de persistencia compartidas por el backend PHP para MySQL/MariaDB. Centralizará la creación segura de conexiones y su configuración, sin compartir conexión ni datos con la intranet.
+`connection.php` crea una conexión PDO a MySQL desde variables de
+entorno, exige la configuración necesaria y habilita errores explícitos y
+consultas preparadas nativas. No comparte conexión ni datos con la intranet.

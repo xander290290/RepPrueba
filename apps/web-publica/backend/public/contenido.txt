@@ -1,1 +1,4 @@
-Directorio público del backend y posible document root del servidor web. Contendrá el punto de entrada PHP que recibe las peticiones y, si procede, recursos estáticos que deban exponerse. La lógica interna y los archivos de configuración se mantendrán fuera de este directorio para evitar publicarlos por error.
+Document root del backend. `index.php` recibe las peticiones, delega en las
+rutas internas y responde en JSON; `.htaccess` redirige al punto de entrada
+las rutas que no correspondan a archivos. La lógica y configuración privadas
+se mantienen fuera de este directorio.

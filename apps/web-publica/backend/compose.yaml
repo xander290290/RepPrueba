@@ -1,0 +1,57 @@
+services:
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:8080:80"
+    environment:
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME:?Set DB_NAME in the backend .env file}
+      DB_USER: ${DB_USER:?Set DB_USER in the backend .env file}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the backend .env file}
+    depends_on:
+      database:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "php", "-r", "exit(@file_get_contents('http://127.0.0.1/api/public/v1/health') === false ? 1 : 0);"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - ./app:/var/www/app
+      - ./public:/var/www/html
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:4321:4321"
+    environment:
+      API_BASE_URL: http://api/api/public/v1
+      HOST: 0.0.0.0
+      PORT: 4321
+    depends_on:
+      api:
+        condition: service_healthy
+
+  database:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:?Set DB_NAME in the backend .env file}
+      MYSQL_USER: ${DB_USER:?Set DB_USER in the backend .env file}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the backend .env file}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in the backend .env file}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/001_initial_schema.sql:/docker-entrypoint-initdb.d/001_initial_schema.sql:ro
+      - ./database/002_seed_public_pages.sql:/docker-entrypoint-initdb.d/002_seed_public_pages.sql:ro
+      - ./database/003_add_aula_creativa_page.sql:/docker-entrypoint-initdb.d/003_add_aula_creativa_page.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping --host=127.0.0.1 --user=root --password=\"$${MYSQL_ROOT_PASSWORD}\" --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  mysql_data:

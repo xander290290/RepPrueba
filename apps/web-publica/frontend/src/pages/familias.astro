@@ -1,0 +1,49 @@
+---
+import SiteLayout from "../components/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Familias"
+  description="Información y recursos para las familias del IES Ramón Arcas Meca."
+>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="eyebrow">IES Ramón Arcas Meca</p>
+      <h1>Familias</h1>
+      <p>Información para acompañar a las familias en la vida educativa.</p>
+    </div>
+  </section>
+
+  <section class="content-section families-page">
+    <div class="card-grid">
+      <article class="info-card">
+        <h2>Información y recursos</h2>
+        <ul>
+          <li>Documentos y enlaces de interés</li>
+          <li>Criterios de evaluación y calificación</li>
+          <li>Equipos docentes</li>
+          <li>Atención a familias</li>
+          <li>Tutoriales de acceso a plataformas</li>
+        </ul>
+      </article>
+      <article class="info-card">
+        <h2>Convivencia y participación</h2>
+        <ul>
+          <li>Buzón de quejas y sugerencias</li>
+          <li>Guía de convivencia</li>
+          <li>El rincón de pensar</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  .families-page .info-card {
+    border-top: 4px solid var(--forest-light);
+  }
+
+  .families-page li + li {
+    margin-top: 0.5rem;
+  }
+</style>

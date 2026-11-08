@@ -1,6 +1,8 @@
-Rutas Astro correspondientes al mapa oficial de secciones:
+Rutas Astro renderizadas en servidor a partir de los datos de la API PHP/MySQL:
 
-- `index.astro`: página de Inicio, bienvenida del IES Ramón Arcas Meca y enlaces destacados a Enseñanzas, Familias y Programas.
-- `[slug].astro`: genera mediante `getStaticPaths()` las rutas de Organización, Familias, Enseñanzas, Secretaría, Programas, Noticias y Contacto usando los datos de `data/sections.ts`.
+- `index.astro`: carga la portada desde `pages/inicio` y muestra programas activos y noticias publicadas.
+- `[slug].astro`: resuelve cada página visible consultando la API por slug y muestra grupos de contenido o programas activos.
+- `noticias/index.astro`: lista noticias publicadas desde la API.
+- `noticias/[id].astro`: muestra el detalle publicado de una noticia.
 
-Las rutas no requieren login y no incluyen funciones privadas de la intranet. El contenido actual es estático.
+Las rutas no requieren login y no incluyen funciones privadas de la intranet. El contenido procede de MySQL a través de la API y se actualiza sin recompilar el frontend.

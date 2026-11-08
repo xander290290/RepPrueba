@@ -1,0 +1,30 @@
+---
+import SiteLayout from "../../components/SiteLayout.astro";
+import { getPublishedNewsItem } from "../../lib/public-api";
+
+const news = await getPublishedNewsItem(Astro.params.id ?? "");
+
+if (!news) {
+  Astro.response.status = 404;
+}
+---
+
+{news ? (
+  <SiteLayout title={news.title} description={news.summary ?? news.title}>
+    <article class="content-section">
+      <p class="eyebrow">{new Date(news.published_at).toLocaleDateString("es-ES")}</p>
+      <h1>{news.title}</h1>
+      {news.summary && <p class="hero-lead">{news.summary}</p>}
+      <p>{news.body}</p>
+      <a class="text-link" href="/noticias/">Volver a noticias</a>
+    </article>
+  </SiteLayout>
+) : (
+  <SiteLayout title="Noticia no encontrada" description="La noticia solicitada no existe.">
+    <section class="content-section">
+      <h1>Noticia no encontrada</h1>
+      <p>La noticia solicitada no existe o no está publicada.</p>
+      <a class="text-link" href="/noticias/">Volver a noticias</a>
+    </section>
+  </SiteLayout>
+)}

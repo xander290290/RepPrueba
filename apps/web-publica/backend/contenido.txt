@@ -1,10 +1,16 @@
-Carpeta raíz reservada para el backend de la web pública, que se implementará en PHP sin framework y usará MySQL/MariaDB, según la memoria técnica.
+Backend inicial de la web pública en PHP sin framework. `Dockerfile` crea el
+entorno PHP/Apache con PDO MySQL; `compose.yaml` arranca la API y MySQL y
+monta el esquema SQL inicial. `.env.example` documenta la configuración local;
+el archivo `.env` real se mantiene ignorado por Git y Docker. `.dockerignore`
+excluye archivos locales y pruebas de la imagen.
+
+- `README.md`: pasos de preparación, estructura, comandos de verificación y
+  ejecución local del backend.
 
 Subcarpetas previstas:
 
 - `public\`: punto de entrada HTTP y recursos que el servidor puede exponer.
 - `app\`: configuración, controladores, acceso a datos, modelos, repositorios, rutas y servicios.
-- `database\`: esquema SQL, migraciones y datos iniciales.
-- `tests\`: pruebas automatizadas del servidor.
-
-Por ahora, esta carpeta y sus subcarpetas contienen únicamente sus respectivos `contenido.txt`; no hay archivos PHP, SQL, configuración ni pruebas implementados.
+- `database\`: `001_initial_schema.sql` crea las tablas del esquema aprobado al
+  inicializar un volumen nuevo.
+- `tests\`: `health_test.php` comprueba el enrutado y validación de la API.

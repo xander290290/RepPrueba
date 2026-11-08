@@ -8,10 +8,10 @@ de la web pública. Es un diseño de Fase 1, no una indicación de que todas las
 entidades estén ya implementadas.
 
 El esquema de la intranet refleja las colecciones y campos que usa actualmente
-el backend. El de la web pública es una propuesta inicial derivada de las
-entidades y principios orientativos de la memoria (sección 6.3); debe revisarse
-con el equipo antes de implementar el backend PHP. La memoria exige normalizar
-el modelo relacional, como mínimo, hasta 3FN.
+el backend. El esquema relacional de la web pública se aprobó como diseño
+inicial de Fase 1 y se materializa en
+`apps/web-publica/backend/database/001_initial_schema.sql`. La memoria exige
+normalizar el modelo relacional, como mínimo, hasta 3FN.
 
 ## 1. Intranet — MongoDB
 
@@ -90,13 +90,13 @@ Las referencias son valores embebidos o identificadores, no relaciones
 validadas automáticamente por MongoDB. La API debe validar los roles al crear
 usuarios y aplicar los permisos en cada operación protegida.
 
-## 2. Web pública — MySQL/MariaDB
+## 2. Web pública — MySQL
 
-El backend público aún no existe. Las tablas siguientes constituyen una
-propuesta de diseño inicial según las entidades orientativas de la memoria;
-los nombres y campos deben confirmarse antes de crear migraciones. Se proponen
-claves primarias, claves foráneas y tablas puente para mantener relaciones
-normalizadas.
+El backend todavía no implementa endpoints de contenido. Las tablas siguientes
+constituyen el esquema inicial aprobado según las entidades orientativas de la
+memoria; se crean desde `001_initial_schema.sql` al inicializar un volumen
+MySQL nuevo. Se usan claves primarias, claves foráneas y tablas puente para
+mantener relaciones normalizadas.
 
 ### Navegación y contenido
 
@@ -126,7 +126,9 @@ completa en cada fila.
 | `cuerpo` | MEDIUMTEXT | Contenido principal. |
 | `actualizado_en` | DATETIME | Última actualización. |
 
-La separación permite cambiar el menú sin mezclarlo con el contenido. Noticias,
+La separación permite cambiar el menú sin mezclarlo con el contenido. En la
+implementación actual de la web pública, el marcado de cada página se mantiene
+en su archivo Astro y esta tabla no es consumida por la web. Noticias,
 programas y otras entidades con atributos propios se mantienen en sus tablas
 específicas.
 
@@ -277,7 +279,7 @@ relacionados. Las claves foráneas deben definirse con reglas de borrado
 explícitas; no se recomienda borrar en cascada contenido editorial o documentos
 sin decidir antes cómo preservar sus referencias.
 
-## 4. Índices y restricciones iniciales propuestos para MySQL/MariaDB
+## 4. Índices y restricciones iniciales aprobados para MySQL
 
 - PK en el identificador de cada entidad y FK en todas las relaciones descritas.
 - `UNIQUE` en `paginas.slug`, `departamentos.nombre` y `contenidos_paginas.pagina_id`.
@@ -289,19 +291,20 @@ sin decidir antes cómo preservar sus referencias.
   al contenido. Los valores permitidos para categorías, estados y tipos deben
   cerrarse al aprobar las reglas editoriales y de Secretaría.
 
-## 5. Decisiones pendientes de validación
+## 5. Decisiones de módulos posteriores
 
-1. Confirmar con el equipo los campos y reglas editoriales del modelo público,
-   incluidos el tipo de contenido de cada sección y el ciclo de estados de las
-   solicitudes de Secretaría.
-2. Elegir tipos y reglas de borrado para MySQL/MariaDB, y revisar el modelo
-   resultante para confirmar 3FN.
-3. Confirmar si las solicitudes de Secretaría se almacenarán en la web pública
-   y quién podrá consultarlas; la memoria las contempla, pero no define el
-   proceso detallado.
-4. Revisar la propuesta contra las tablas y campos exactos del documento
-   oficial antes de iniciar la implementación.
+El diseño inicial y la temporalización han sido aprobados por el equipo. Las
+siguientes decisiones concretan reglas funcionales que deben cerrarse antes de
+implementar los módulos correspondientes; no bloquean la creación del esquema
+inicial:
 
-Este documento cubre el entregable de diseño inicial de datos de Fase 1. La
-aprobación del esquema por el equipo queda pendiente; las tablas de la web
-pública no se consideran implementadas por existir esta especificación.
+1. Acordar los valores permitidos para categorías, tipos de contenido y estados
+   editoriales y de Secretaría.
+2. Definir quién puede consultar solicitudes de Secretaría y sus reglas de
+   privacidad, conservación y borrado antes de habilitar ese formulario.
+3. Determinar qué registros de personas se autorizan a publicar.
+
+Las claves foráneas del esquema inicial restringen el borrado de registros
+relacionados para preservar contenido y documentos. El SQL implementa las
+tablas y restricciones descritas en este documento, pero no inserta contenido
+ni habilita endpoints editoriales o de Secretaría.

@@ -1,15 +1,16 @@
 ---
+import { getPublicPages, type PublicMenuPage } from "../lib/public-api";
+
 const intranetUrl = import.meta.env.PUBLIC_INTRANET_URL ?? "http://localhost:5173";
-const links = [
-  { href: "/", label: "Inicio" },
-  { href: "/organizacion/", label: "Organización" },
-  { href: "/familias/", label: "Familias" },
-  { href: "/ensenanzas/", label: "Enseñanzas" },
-  { href: "/secretaria/", label: "Secretaría" },
-  { href: "/programas/", label: "Programas" },
-  { href: "/noticias/", label: "Noticias" },
-  { href: "/contacto/", label: "Contacto" },
-];
+const pages = await getPublicPages();
+
+function flattenPages(items: PublicMenuPage[]): PublicMenuPage[] {
+  return items.flatMap((page) => [page, ...flattenPages(page.children)]);
+}
+
+const links = flattenPages(pages)
+  .filter((page) => page.slug !== "inicio")
+  .map((page) => ({ href: `/${page.slug}/`, label: page.title }));
 ---
 
 <header class="site-header">

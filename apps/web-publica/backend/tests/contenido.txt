@@ -1,1 +1,3 @@
-Pruebas automatizadas del backend público. Cubrirán rutas, validaciones y lógica de aplicación y, cuando se implemente la persistencia, las consultas con una base de pruebas aislada. No contendrá credenciales reales.
+`health_test.php` comprueba el enrutado de la API pública (salud, método no
+permitido y recurso inexistente) sin necesitar una base de datos. Las pruebas
+de persistencia se añadirán con el esquema aprobado y una base aislada.

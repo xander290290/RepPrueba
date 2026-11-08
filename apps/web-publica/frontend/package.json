@@ -9,10 +9,12 @@
     "check": "astro check"
   },
   "dependencies": {
+    "@astrojs/node": "^11.1.11",
     "astro": "^7.4.7"
   },
   "devDependencies": {
     "@astrojs/check": "latest",
+    "@types/node": "^26.6.6",
     "typescript": "latest"
   }
 }

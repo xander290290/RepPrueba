@@ -1,0 +1,68 @@
+---
+import SiteLayout from "../components/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Organización"
+  description="Conoce la organización y los equipos del IES Ramón Arcas Meca."
+>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="eyebrow">IES Ramón Arcas Meca</p>
+      <h1>Organización</h1>
+      <p>Personas, equipos y recursos que organizan la vida del centro.</p>
+    </div>
+  </section>
+
+  <section class="content-section organization-page">
+    <section class="organization-intro">
+      <h2>Conoce nuestro centro</h2>
+      <p>
+        Trabajamos en comunidad para ofrecer una educación cercana, inclusiva y
+        comprometida con el aprendizaje.
+      </p>
+    </section>
+
+    <div class="card-grid">
+      <article class="info-card">
+        <h2>El centro</h2>
+        <ul>
+          <li>Quiénes somos</li>
+          <li>Equipo directivo</li>
+          <li>Consejo escolar</li>
+          <li>Claustro</li>
+        </ul>
+      </article>
+      <article class="info-card">
+        <h2>Coordinación y vida escolar</h2>
+        <ul>
+          <li>Comisión de coordinación pedagógica</li>
+          <li>Departamentos</li>
+          <li>Horarios</li>
+          <li>Calendario escolar</li>
+        </ul>
+      </article>
+      <article class="info-card">
+        <h2>Documentación</h2>
+        <ul>
+          <li>Documentos institucionales</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  .organization-page {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .organization-intro {
+    max-width: 720px;
+  }
+
+  .organization-page li + li {
+    margin-top: 0.45rem;
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import SiteLayout from "../../components/SiteLayout.astro";
+import { getPublishedNews } from "../../lib/public-api";
+
+const news = await getPublishedNews();
+---
+
+<SiteLayout
+  title="Noticias"
+  description="Actualidad, eventos y novedades del IES Ramón Arcas Meca."
+>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="eyebrow">IES Ramón Arcas Meca</p>
+      <h1>Noticias</h1>
+      <p>Actualidad, eventos y novedades del centro educativo.</p>
+    </div>
+  </section>
+
+  <section class="content-section" aria-label="Noticias publicadas">
+    {news.items.length > 0 ? (
+      <div class="card-grid">
+        {news.items.map((item) => (
+          <article class="info-card">
+            <p class="eyebrow">{new Date(item.published_at).toLocaleDateString("es-ES")}</p>
+            <h2><a href={`/noticias/${item.id}/`}>{item.title}</a></h2>
+            <p>{item.summary}</p>
+          </article>
+        ))}
+      </div>
+    ) : (
+      <p>No hay noticias publicadas en este momento.</p>
+    )}
+  </section>
+</SiteLayout>

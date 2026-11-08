@@ -9,7 +9,7 @@ La web pública y la intranet no comparten autenticación ni lógica de negocio.
 Esta especificación recoge contratos previstos, no implica que todos los
 endpoints estén implementados. Actualmente solo está implementado el backend
 de intranet descrito en su README. La web pública se desarrollará conforme al
-stack oficial de la memoria (PHP sin framework y MySQL/MariaDB); sus contratos
+stack del proyecto (PHP sin framework y MySQL), conforme a la memoria; sus contratos
 no forman parte de la Fase 1 de intranet.
 
 ## Arquitectura general
@@ -68,16 +68,41 @@ basada en las entidades del esquema inicial y el mapa de secciones de la
 memoria. La memoria establece el contenido y la arquitectura, pero no fija
 paths ni formatos JSON concretos.
 
-**Estado actual:** el frontend Astro genera páginas iniciales estáticas y no
-consume esta API. El backend PHP y la base MySQL/MariaDB aún no están
-implementados; por tanto, ninguno de los endpoints de esta sección está
-disponible todavía. Los ejemplos son contratos propuestos, no respuestas de
-un servicio activo.
+**Estado actual:** el frontend Astro se renderiza en servidor. La navegación,
+las noticias y los programas se consultan desde esta API en cada petición; las
+páginas informativas se implementan como archivos Astro independientes. Estos
+endpoints leen MySQL; no hay una API pública de escritura ni un backoffice
+todavía. En un volumen nuevo, Compose crea las tablas y carga las secciones
+iniciales del menú.
 
 La API pública solo expondrá contenido publicado y datos aprobados para
 difusión pública. No compartirá base de datos, sesión ni autenticación con la
 intranet. Los contratos de escritura para el backoffice se concretarán cuando
 se definan autenticación, permisos y protección contra abuso.
+
+### 1.0 Comprobaciones de salud
+
+Estas rutas verifican que responde la API y que puede acceder a MySQL.
+
+#### GET `/api/public/v1/health`
+
+Comprueba que PHP/Apache y el enrutado de la API responden.
+
+**Respuesta actual (200 OK)**
+
+```json
+{ "status": "ok", "service": "web-publica-api" }
+```
+
+#### GET `/api/public/v1/health/database`
+
+Comprueba la conexión configurada con MySQL mediante `SELECT 1`.
+
+- 200 OK: `{ "status": "ok", "database": "ok" }`
+- 503 Service Unavailable: `{ "status": "error", "database": "unavailable" }`
+
+Los detalles de conexión solo se escriben en el log del servidor; no se
+devuelven al cliente.
 
 Al implementar los filtros de publicación se respetarán los campos del
 esquema inicial: `paginas.visible`, `programas.activo` y `noticias.estado`.
@@ -93,7 +118,7 @@ registros y datos se autorizan a difundir.
 Devuelve las páginas visibles para construir el menú, ordenadas por `orden`.
 Los elementos hijos se representan en `children`.
 
-**Respuesta propuesta (200 OK)**
+**Respuesta actual (200 OK)**
 
 ```json
 [
@@ -115,28 +140,10 @@ Los elementos hijos se representan en `children`.
 ]
 ```
 
-#### GET `/api/public/v1/pages/{slug}`
-
-Devuelve el contenido público de una página por su slug. Las páginas que
-representan noticias, programas u otro recurso específico pueden enlazar al
-endpoint de ese recurso en vez de duplicar sus datos.
-
-**Respuesta propuesta (200 OK)**
-
-```json
-{
-  "slug": "organizacion",
-  "title": "Organización",
-  "content_title": "Conoce nuestro centro",
-  "summary": "Organización y recursos del centro.",
-  "body": "Contenido editorial público.",
-  "updated_at": "2026-11-08T10:00:00Z",
-  "documents": []
-}
-```
-
-**Errores**
-- 404 Not Found: slug inexistente o página no visible.
+El cuerpo HTML de cada página informativa y sus estilos se mantienen en su
+archivo Astro correspondiente bajo `apps/web-publica/frontend/src/pages/`.
+No existe una ruta API `/pages/{slug}`: el endpoint de páginas se utiliza
+únicamente para generar el menú.
 
 ### 1.2 Noticias
 
@@ -145,7 +152,7 @@ endpoint de ese recurso en vez de duplicar sus datos.
 Devuelve noticias publicadas, de más reciente a más antigua. Parámetros
 opcionales: `limit` (1–100, por defecto 20) y `offset` (por defecto 0).
 
-**Respuesta propuesta (200 OK)**
+**Respuesta actual (200 OK)**
 
 ```json
 {
@@ -174,13 +181,17 @@ Devuelve una noticia publicada con su contenido completo.
   "id": 12,
   "title": "Inauguración del curso",
   "summary": "Resumen de la noticia.",
-  "content": "Texto completo de la noticia.",
+  "body": "Texto completo de la noticia.",
   "published_at": "2026-09-15T10:00:00Z"
 }
 ```
 
 **Errores**
 - 404 Not Found: noticia inexistente o no publicada.
+
+El frontend sirve las noticias en `/noticias/` y sus detalles en
+`/noticias/{id}/`. Solo incluye registros con estado `publicada` y fecha de
+publicación no futura.
 
 ### 1.3 Documentos descargables
 
@@ -189,7 +200,7 @@ Devuelve una noticia publicada con su contenido completo.
 Lista documentos públicos. Filtros opcionales: `category` (`institucional`,
 `familias` o `programa`), `page_id` y `program_id`.
 
-**Respuesta propuesta (200 OK)**
+**Respuesta actual (200 OK)**
 
 ```json
 [
@@ -227,9 +238,7 @@ Lista programas activos, agrupables por categoría. Admite el filtro opcional
     "id": 7,
     "name": "Erasmus+",
     "category": "Programas educativos",
-    "description": "Descripción pública del programa.",
-    "documents": [],
-    "departments": []
+    "description": "Descripción pública del programa."
   }
 ]
 ```
@@ -628,7 +637,7 @@ Devuelve los permisos asociados a un rol concreto.
 
 ## Modelo de datos mínimo recomendado
 
-El modelo de la web pública debe ser relacional (MySQL o MariaDB) y respetar la
+El modelo de la web pública es relacional (MySQL) y respeta la
 normalización mínima en 3FN. La tabla de páginas/secciones debe mantener la
 jerarquía del menú mediante `padre_id` y estar separada de las tablas de
 contenido. La memoria propone estas entidades orientativas:
@@ -724,7 +733,9 @@ La Fase 1 —Cimientos— se centra en:
 La web pública funcional y los contratos propuestos en la sección 1 son parte
 del proyecto global, pero no se deben presentar como entregables de esta fase.
 Los endpoints de intranet enumerados arriba sí reflejan la implementación
-actual; los de la web pública todavía no están implementados.
+actual; los endpoints de lectura de páginas, noticias y programas de la web
+pública también están implementados. Los endpoints de escritura siguen
+pendientes.
 
 ## Observaciones
 

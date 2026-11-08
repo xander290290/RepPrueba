@@ -1,6 +1,8 @@
 # Local environment files can contain credentials; keep example templates tracked.
 # **/.env
 # !.env.example
+# Local MySQL credentials for the public website backend.
+# apps/web-publica/backend/.env
 
 # Python environments, bytecode, and test caches are generated locally.
 # **/.venv/

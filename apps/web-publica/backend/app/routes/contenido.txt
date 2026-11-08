@@ -1,1 +1,3 @@
-Definición de las rutas HTTP de la API pública y su asociación con controladores. Las rutas se organizarán por recursos cuando se concrete la API; no se incluirán aquí rutas ni credenciales de la intranet.
+`api.php` enruta las comprobaciones de salud y las lecturas públicas de páginas,
+noticias publicadas y programas activos bajo `/api/public/v1`. Valida paginación
+y no define operaciones de escritura ni rutas de intranet.
