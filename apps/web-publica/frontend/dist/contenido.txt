@@ -1,0 +1,1 @@
+Recursos estáticos servidos directamente por el frontend, como favicon, imágenes institucionales aprobadas y archivos públicos que no requieran importación desde TypeScript. No almacenará documentos privados ni secretos.
