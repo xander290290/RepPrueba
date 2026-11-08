@@ -1,1 +1,10 @@
-﻿Carpeta del backend de la web pública. Aquí se implementará la API pública para noticias, eventos, documentos y contenido institucional.
+Carpeta raíz reservada para el backend de la web pública, que se implementará en PHP sin framework y usará MySQL/MariaDB, según la memoria técnica.
+
+Subcarpetas previstas:
+
+- `public\`: punto de entrada HTTP y recursos que el servidor puede exponer.
+- `app\`: configuración, controladores, acceso a datos, modelos, repositorios, rutas y servicios.
+- `database\`: esquema SQL, migraciones y datos iniciales.
+- `tests\`: pruebas automatizadas del servidor.
+
+Por ahora, esta carpeta y sus subcarpetas contienen únicamente sus respectivos `contenido.txt`; no hay archivos PHP, SQL, configuración ni pruebas implementados.

@@ -9,7 +9,7 @@ Este proyecto forma parte del Proyecto Intermodular de DAW del IES Ramón Arcas 
 
 La diferencia fundamental es que cada una tiene su propia arquitectura y sus propias dependencias, aunque comparten el mismo contexto académico y el mismo objetivo de digitalizar servicios del centro.
 
-La Fase 1 del proyecto, denominada "Cimientos" en la memoria técnica, cubre el esquema de datos inicial, la temporalización completa, la autenticación básica de la intranet y su núcleo mínimo de roles y permisos. La web pública es un proyecto independiente; sus requisitos generales se describen aquí, pero la memoria no la incluye como aplicación funcional dentro de esa fase.
+La Fase 1, denominada "Cimientos" en la memoria técnica, cubre oficialmente el esquema de datos inicial, la temporalización completa, la autenticación básica de la intranet y su núcleo mínimo de roles y permisos. Para organizar el proyecto completo, esta temporalización también integra en la Fase 1 el arranque técnico de la web pública, aunque la memoria no lo enumera como entregable de esa fase. Ambos productos siguen siendo independientes.
 
 ## Objetivo de la fase 1
 
@@ -61,9 +61,10 @@ Dependencias principales:
 ### Web pública
 
 #### Frontend
-- Framework a elegir por el equipo, combinado con TypeScript
+- Astro con TypeScript (decisión de implementación del equipo; la memoria deja el framework a elección)
 - diseño responsive
-- páginas públicas alineadas con el mapa de secciones de la memoria
+- páginas estáticas alineadas con el mapa de secciones de la memoria, con contenido dinámico conectado a la API cuando se implemente
+- acceso a la intranet mediante enlace configurable a su aplicación independiente; no comparte sesión ni autenticación
 
 #### Backend y persistencia
 - PHP sin framework (la memoria descarta Laravel)
@@ -125,10 +126,55 @@ Preba/
 │  ├─ contenido.txt
 │  ├─ web-publica/
 │  │  ├─ backend/
+│  │  │  ├─ app/
+│  │  │  │  ├─ config/
+│  │  │  │  ├─ controllers/
+│  │  │  │  ├─ database/
+│  │  │  │  ├─ models/
+│  │  │  │  ├─ repositories/
+│  │  │  │  ├─ routes/
+│  │  │  │  ├─ services/
+│  │  │  │  └─ contenido.txt
+│  │  │  ├─ database/
+│  │  │  │  └─ contenido.txt
+│  │  │  ├─ public/
+│  │  │  │  └─ contenido.txt
+│  │  │  ├─ tests/
+│  │  │  │  └─ contenido.txt
 │  │  │  └─ contenido.txt
 │  │  ├─ docs/
 │  │  │  └─ contenido.txt
 │  │  └─ frontend/
+│  │     ├─ public/
+│  │     │  └─ contenido.txt
+│  │     ├─ src/
+│  │     │  ├─ components/
+│  │     │  │  ├─ SiteFooter.astro
+│  │     │  │  ├─ SiteHeader.astro
+│  │     │  │  ├─ SiteLayout.astro
+│  │     │  │  └─ contenido.txt
+│  │     │  ├─ data/
+│  │     │  │  ├─ sections.ts
+│  │     │  │  └─ contenido.txt
+│  │     │  ├─ pages/
+│  │     │  │  ├─ [slug].astro
+│  │     │  │  ├─ index.astro
+│  │     │  │  └─ contenido.txt
+│  │     │  ├─ services/
+│  │     │  │  └─ contenido.txt
+│  │     │  ├─ styles/
+│  │     │  │  ├─ global.css
+│  │     │  │  └─ contenido.txt
+│  │     │  ├─ types/
+│  │     │  │  └─ contenido.txt
+│  │     │  ├─ env.d.ts
+│  │     │  └─ contenido.txt
+│  │     ├─ .env.example
+│  │     ├─ astro.config.mjs
+│  │     ├─ package.json
+│  │     ├─ package-lock.json
+│  │     ├─ tsconfig.json
+│  │     ├─ README.md
 │  │     └─ contenido.txt
 │  └─ intranet/
 │     ├─ backend/
@@ -188,18 +234,18 @@ Preba/
 └─ README.md
 ```
 
-Las carpetas de la web pública, el frontend de la intranet y `shared/` están
-creadas como estructura inicial; sus archivos `contenido.txt` son descriptivos
-y no representan aplicaciones funcionales. El backend funcional implementado
-actualmente es el de la intranet. No existen todavía `docker-compose.yml`,
-`package.json` ni `docs/arquitectura-general.md`.
+El frontend público ya tiene un arranque funcional en Astro con TypeScript y
+genera las ocho páginas iniciales del mapa de secciones. El backend PHP de la
+web pública y el frontend de la intranet siguen siendo estructuras iniciales.
+`shared/` también es una estructura reservada. No existen todavía
+`docker-compose.yml` ni `docs/arquitectura-general.md`.
 
 ## Dependencias por aplicación
 
 ### Web pública
 
 Debe depender de:
-- frontend con TypeScript y un framework elegido por el equipo
+- frontend Astro con TypeScript
 - backend PHP sin framework
 - base de datos relacional MySQL o MariaDB
 - backoffice CRUD para noticias, documentos y programas
@@ -210,8 +256,8 @@ No debe depender directamente de:
 - roles de profesorado
 - gestión de ausencias, guardias o incidencias internas
 
-El backend público todavía no está implementado; sus carpetas son solo la
-estructura inicial.
+El frontend público ya cuenta con páginas iniciales; el backend público y su
+conexión a MySQL/MariaDB todavía no están implementados.
 
 ### Intranet
 
@@ -230,16 +276,31 @@ No debe depender de:
 
 ## Alcance de Fase 1 según la memoria oficial
 
-La memoria define la Fase 1 —Cimientos— con estos entregables:
+La tabla de fases de la memoria técnica define el siguiente orden para la
+intranet. Los módulos de cada fase son entregables oficiales; las semanas y
+actividades de la web pública indicadas en la temporalización son una propuesta
+de planificación del equipo, no fases ni fechas fijadas por la memoria.
+
+| Fase oficial | Contenido que debe desarrollarse |
+|---|---|
+| **1 — Cimientos** | Esquema de datos inicial y temporalización completa del proyecto; autenticación básica; núcleo mínimo de roles y permisos. |
+| **2 — Núcleo funcional** | Tablón de anuncios; seguimiento FEM; publicaciones RRSS como borrador con IA; gestión de retrasos; emplazamiento en el aula; capa completa de roles y permisos; primeros pasos (onboarding); incidencias RMI y/o gestión de compras, repartidos según la carga de trabajo. |
+| **3 — Guardias y firma** | Guardias, incluyendo el flujo de ausencias y firma; aula de convivencia; comisiones de servicio con firma; el módulo de incidencias RMI o gestión de compras que haya quedado pendiente de la Fase 2. |
+| **4 — Integraciones** | OAuth completo; integración con Google Calendar; notificaciones push y por email; documentación técnica final. |
+
+La Fase 1 —Cimientos— tiene estos entregables:
 
 - esquema de datos inicial
 - temporalización completa del proyecto
 - autenticación básica
 - núcleo mínimo de roles y permisos
 
-La memoria no asigna la construcción funcional de la web pública a esta fase.
-Su arquitectura y sus requisitos globales se detallan por separado y se
-planifican como línea de trabajo del proyecto.
+La memoria organiza estas cuatro fases para la intranet y no asigna la
+construcción funcional de la web pública a una fase concreta. Para coordinar
+el proyecto completo, la temporalización incorpora el arranque técnico de la
+web pública dentro de la Fase 1 y planifica la continuación de sus contenidos
+en las fases siguientes. Esto no cambia el alcance oficial de las fases de
+intranet ni la separación entre aplicaciones.
 
 El diseño inicial de datos de ambas aplicaciones está recogido en
 [el documento de esquema](docs/esquema-inicial-datos.md); debe revisarse y
@@ -335,26 +396,30 @@ Intranet: backend http://127.0.0.1:8000
 
 ## Recomendación para la implementación
 
-Se recomienda trabajar con dos frentes paralelos:
+Se recomienda seguir las fases de la temporalización como un plan integrado:
 
-1. construir la base de contenido público
-2. construir la base de autenticación y permisos de la intranet
-3. dejar una API separada por dominio de negocio
+1. iniciar en la Fase 1 los cimientos de la intranet y la base técnica de la web pública
+2. avanzar los módulos de cada aplicación según las fases y dependencias acordadas
+3. mantener APIs, datos y autenticación separados por aplicación
 4. documentar cada aplicación por separado
-5. mantener un esquema claro de dependencias para cada proyecto
 
 ## Criterio de aceptación de Fase 1 según la memoria
 
-La Fase 1 se considera completada cuando se han preparado y revisado:
+La Fase 1 se considera completada cuando se han preparado, revisado y
+verificado:
 
 - el esquema de datos inicial
 - la temporalización completa del proyecto
 - la autenticación básica de la intranet
 - el núcleo mínimo de roles y permisos de la intranet
 
-Las pruebas automatizadas de autenticación y permisos verifican el
-funcionamiento de esta base. La web pública funcional, OAuth completo y los
-módulos posteriores no se deben presentar como entregables de Fase 1.
+Las pruebas automatizadas aportan evidencia técnica, pero no sustituyen la
+revisión y aprobación del esquema y de la temporalización por el equipo.
+El arranque técnico de la web pública se incluye como decisión de la
+temporalización del proyecto, no como requisito explícito de la memoria para
+la Fase 1 de intranet. La web pública completa, OAuth completo y los módulos
+de las fases posteriores no se deben presentar como entregables oficiales de
+esa fase.
 
 ## Documentación relacionada
 

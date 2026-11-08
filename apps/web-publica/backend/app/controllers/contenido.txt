@@ -1,0 +1,1 @@
+Controladores HTTP de la API pública. Recibirán las peticiones, validarán los parámetros básicos, invocarán los servicios correspondientes y devolverán respuestas con el formato y estado HTTP adecuados. No deben contener consultas SQL ni mezclar la presentación con la persistencia.

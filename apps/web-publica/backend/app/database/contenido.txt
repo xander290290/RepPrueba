@@ -1,0 +1,1 @@
+Conexión y utilidades de persistencia compartidas por el backend PHP para MySQL/MariaDB. Centralizará la creación segura de conexiones y su configuración, sin compartir conexión ni datos con la intranet.

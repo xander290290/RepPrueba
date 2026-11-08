@@ -1,0 +1,1 @@
+Esquema SQL inicial, migraciones y datos de desarrollo para MySQL/MariaDB. El diseño seguirá el esquema documentado del proyecto, con claves foráneas, relaciones necesarias y separación entre la jerarquía de páginas y sus contenidos.

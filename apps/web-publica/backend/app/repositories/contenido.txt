@@ -1,0 +1,1 @@
+Acceso a datos de MySQL/MariaDB. Agrupará las consultas parametrizadas para leer y guardar páginas, contenidos y entidades editoriales, manteniendo el SQL separado de controladores y servicios.

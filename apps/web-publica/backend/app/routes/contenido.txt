@@ -1,0 +1,1 @@
+Definición de las rutas HTTP de la API pública y su asociación con controladores. Las rutas se organizarán por recursos cuando se concrete la API; no se incluirán aquí rutas ni credenciales de la intranet.

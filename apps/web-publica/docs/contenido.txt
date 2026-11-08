@@ -1,1 +1,4 @@
-﻿Documentación específica de la web pública: estructura, contenidos y decisiones de diseño del sitio informativo.
+Documentación específica de la web pública. La memoria deja el framework del frontend a elección del equipo; se ha elegido Astro con TypeScript. El backend previsto sigue siendo PHP sin framework y MySQL/MariaDB. La intranet permanece como una aplicación independiente, enlazada desde el sitio pero sin compartir autenticación ni sesión.
+
+- `arranque-web-publica.md`: requisitos y comandos PowerShell para instalar dependencias, crear la configuración local, arrancar Astro, comprobar tipos y generar/previsualizar la compilación. Aclara que el backend PHP todavía no está implementado.
+- `contenido.txt`: este índice de la carpeta.

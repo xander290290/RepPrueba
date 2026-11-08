@@ -1,0 +1,1 @@
+Pruebas automatizadas del backend público. Cubrirán rutas, validaciones y lógica de aplicación y, cuando se implemente la persistencia, las consultas con una base de pruebas aislada. No contendrá credenciales reales.

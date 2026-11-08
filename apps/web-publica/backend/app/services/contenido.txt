@@ -1,0 +1,1 @@
+Casos de uso y lógica de aplicación del backend, como obtener contenido publicado, listar noticias o recuperar documentos asociados a una página. Coordinará repositorios y validaciones de negocio sin depender directamente del protocolo HTTP.

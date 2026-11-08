@@ -1,0 +1,7 @@
+Carpeta raíz de la web pública del centro. Divide la aplicación por responsabilidad:
+
+- `backend\`: backend previsto en PHP sin framework y su persistencia independiente en MySQL/MariaDB. Solo se ha creado el esqueleto descriptivo; todavía no hay código de servidor.
+- `docs\`: documentación específica. `arranque-web-publica.md` explica la instalación, ejecución y comprobaciones del frontend.
+- `frontend\`: sitio público implementado inicialmente con Astro y TypeScript. `package.json` define sus comandos y dependencias; `README.md` documenta los pasos de desarrollo.
+
+El frontend público y la intranet son aplicaciones separadas: no comparten base de datos, sesión ni autenticación. El frontend tiene páginas iniciales funcionales con datos estáticos; el backend sigue pendiente.

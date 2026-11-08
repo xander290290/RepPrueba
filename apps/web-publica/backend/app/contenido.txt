@@ -1,0 +1,11 @@
+Contendrá el código interno de la aplicación backend PHP, separado del document root `public\`.
+
+- `config\`: configuración de la aplicación y variables de entorno.
+- `controllers\`: manejadores de peticiones HTTP.
+- `database\`: conexión y utilidades de acceso a MySQL/MariaDB.
+- `models\`: entidades y reglas del dominio público.
+- `repositories\`: consultas parametrizadas y persistencia.
+- `routes\`: rutas HTTP y asociación con controladores.
+- `services\`: casos de uso y lógica de aplicación.
+
+Las carpetas están vacías de código por ahora; cada una contiene su `contenido.txt` descriptivo.

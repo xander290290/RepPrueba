@@ -1,0 +1,1 @@
+Estructuras y reglas del dominio público: páginas, contenidos, documentos, programas, departamentos, noticias, personas, enseñanzas y materias optativas. Representará los datos de la web sin incluir la lógica de transporte HTTP.

@@ -1,0 +1,1 @@
+Configuración de la aplicación, lectura y validación de variables de entorno y opciones no secretas. Las credenciales reales de MySQL/MariaDB no se guardarán en el repositorio ni se expondrán desde `public\`.
