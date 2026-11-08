@@ -1,1 +1,3 @@
-Recursos estáticos servidos directamente por el frontend, como favicon, imágenes institucionales aprobadas y archivos públicos que no requieran importación desde TypeScript. No almacenará documentos privados ni secretos.
+Directorio de recursos estáticos que Astro copiará a la raíz del sitio compilado sin procesarlos.
+
+Actualmente no contiene imágenes, favicon ni otros recursos; solo este archivo descriptivo. Cuando se incorporen imágenes institucionales o iconos, deben ser recursos aprobados y públicos, nunca documentos privados ni secretos.
