@@ -1,0 +1,34 @@
+---
+import SiteLayout from "../components/SiteLayout.astro";
+import { sections } from "../data/sections";
+
+export function getStaticPaths() {
+  return Object.entries(sections).map(([slug, section]) => ({
+    params: { slug },
+    props: { section },
+  }));
+}
+
+const { section } = Astro.props;
+---
+
+<SiteLayout title={section.title} description={section.description}>
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <p class="eyebrow">IES Ramón Arcas Meca</p>
+      <h1>{section.title}</h1>
+      <p>{section.intro}</p>
+    </div>
+  </section>
+
+  <section class="content-section section-list" aria-label={`Apartados de ${section.title}`}>
+    {section.groups.map((group) => (
+      <article class="info-card section-card">
+        <h2>{group.title}</h2>
+        <ul class="topic-list">
+          {group.items.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+    ))}
+  </section>
+</SiteLayout>

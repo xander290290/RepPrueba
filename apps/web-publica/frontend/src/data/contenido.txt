@@ -1,0 +1,5 @@
+Datos tipados que alimentan las páginas públicas.
+
+- `sections.ts`: declara la interfaz `PublicSection` y el contenido inicial de Organización, Familias, Enseñanzas, Secretaría, Programas, Noticias y Contacto. Agrupa cada sección en apartados y elementos derivados del mapa de la memoria.
+
+El contenido es provisional; se sustituirá o completará con datos de la API cuando exista el backend.

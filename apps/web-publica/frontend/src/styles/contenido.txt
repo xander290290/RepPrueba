@@ -1,0 +1,5 @@
+Estilos globales del frontend.
+
+- `global.css`: variables de color y tipografía, estilos base, cabecera y navegación, portada, tarjetas, pie de página, estados de foco, enlace para saltar al contenido, adaptación a pantallas pequeñas y preferencia de movimiento reducido.
+
+Los estilos se cargan desde `SiteLayout.astro`; deben seguir revisándose para contraste y accesibilidad WCAG.

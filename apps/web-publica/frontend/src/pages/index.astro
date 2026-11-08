@@ -1,0 +1,68 @@
+---
+import SiteLayout from "../components/SiteLayout.astro";
+
+const highlights = [
+  {
+    href: "/ensenanzas/",
+    title: "Nuestra oferta educativa",
+    text: "Conoce las etapas y enseñanzas del centro.",
+  },
+  {
+    href: "/familias/",
+    title: "Espacio para familias",
+    text: "Consulta recursos, documentación y orientación.",
+  },
+  {
+    href: "/programas/",
+    title: "Programas y proyectos",
+    text: "Descubre los planes e iniciativas del centro.",
+  },
+];
+---
+
+<SiteLayout
+  title="Inicio"
+  description="Web informativa del IES Ramón Arcas Meca, centro educativo situado en Totana, Murcia."
+>
+  <section class="hero">
+    <div class="hero-content">
+      <p class="eyebrow">IES Ramón Arcas Meca · Totana, Murcia</p>
+      <h1>Aprender, convivir y construir futuro</h1>
+      <p class="hero-lead">
+        Bienvenido a la web del centro. Aquí encontrarás información educativa,
+        recursos para las familias y la actualidad de nuestra comunidad.
+      </p>
+      <a class="button button-light" href="/ensenanzas/">Explora nuestras enseñanzas</a>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <span class="art-sun"></span>
+      <span class="art-hill art-hill-back"></span>
+      <span class="art-hill art-hill-front"></span>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="welcome-heading">
+    <div class="section-heading">
+      <p class="eyebrow">Un centro abierto a su comunidad</p>
+      <h2 id="welcome-heading">Te damos la bienvenida</h2>
+      <p>Información clara y accesible para alumnado, familias y comunidad educativa.</p>
+    </div>
+    <div class="card-grid">
+      {highlights.map((item) => (
+        <article class="info-card">
+          <h3><a href={item.href}>{item.title}</a></h3>
+          <p>{item.text}</p>
+          <a class="text-link" href={item.href}>Más información <span aria-hidden="true">→</span></a>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="program-band" aria-labelledby="program-heading">
+    <div>
+      <p class="eyebrow">Proyectos del centro</p>
+      <h2 id="program-heading">Una comunidad que participa y crece</h2>
+    </div>
+    <a class="button button-outline" href="/programas/">Ver programas y planes</a>
+  </section>
+</SiteLayout>

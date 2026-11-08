@@ -1,0 +1,30 @@
+---
+const intranetUrl = import.meta.env.PUBLIC_INTRANET_URL ?? "http://localhost:5173";
+const links = [
+  { href: "/", label: "Inicio" },
+  { href: "/organizacion/", label: "Organización" },
+  { href: "/familias/", label: "Familias" },
+  { href: "/ensenanzas/", label: "Enseñanzas" },
+  { href: "/secretaria/", label: "Secretaría" },
+  { href: "/programas/", label: "Programas" },
+  { href: "/noticias/", label: "Noticias" },
+  { href: "/contacto/", label: "Contacto" },
+];
+---
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/" aria-label="IES Ramón Arcas Meca, inicio">
+      <span class="brand-mark" aria-hidden="true">RA</span>
+      <span class="brand-name">IES Ramón Arcas Meca</span>
+    </a>
+    <nav aria-label="Navegación principal">
+      <ul class="nav-links">
+        {links.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <a class="intranet-link" href={intranetUrl}>Acceso a la intranet</a>
+  </div>
+</header>

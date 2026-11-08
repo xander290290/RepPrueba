@@ -1,1 +1,13 @@
-﻿Carpeta del frontend de la web pública del centro. Aquí se desarrollará la parte visual, navegación y páginas informativas accesibles sin autenticación.
+Frontend de la web informativa del centro, desarrollado con Astro y TypeScript. La memoria deja el framework del frontend a elección del equipo; Astro es la elección adoptada en este proyecto.
+
+- `src\`: páginas, componentes Astro, datos, estilos globales y declaración de tipos de Astro.
+- `public\`: recursos estáticos servidos directamente; actualmente solo tiene su descriptor, sin recursos añadidos.
+- `package.json`: dependencias y comandos `dev`, `build`, `preview` y `check`.
+- `package-lock.json`: versiones concretas de dependencias para instalaciones reproducibles con `npm ci`.
+- `astro.config.mjs`: configuración de Astro.
+- `tsconfig.json`: configuración TypeScript que extiende el perfil estricto de Astro.
+- `.env.example`: plantilla para `PUBLIC_INTRANET_URL`.
+- `.env`: configuración local ignorada por Git; no se deben guardar secretos en variables `PUBLIC_`.
+- `README.md`: pasos reproducibles para preparar, comprobar y arrancar el frontend.
+
+Las páginas públicas son independientes de la intranet. Su enlace de acceso dirige a la aplicación de intranet, pero no implementa ni comparte su login.

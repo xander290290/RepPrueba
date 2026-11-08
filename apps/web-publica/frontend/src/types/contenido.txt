@@ -1,0 +1,1 @@
+Espacio reservado para tipos TypeScript propios de las respuestas y recursos de la API pública. Actualmente no contiene archivos de tipos: la interfaz `PublicSection` está declarada en `data\sections.ts` y `env.d.ts` contiene las declaraciones de entorno de Astro.

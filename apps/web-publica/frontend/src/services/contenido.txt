@@ -1,0 +1,1 @@
+Espacio reservado para funciones de comunicación HTTP con la API pública PHP. En este momento no hay archivos de servicio ni llamadas a la API; las páginas utilizan contenido estático definido en `data\sections.ts`. No se implementarán aquí llamadas a la autenticación privada de la intranet.
