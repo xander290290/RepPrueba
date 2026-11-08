@@ -1,0 +1,5 @@
+Componentes React de las pantallas y navegación de la intranet.
+- `LoginPage.tsx`: acceso mediante credenciales validadas por la API.
+- `IntranetShell.tsx`: área privada, navegación adaptable, usuarios, roles y módulos por fases.
+- El layout de escritorio usa navegación lateral y en móvil usa barra inferior.
+- Los módulos que todavía no tienen endpoints se identifican como pendientes; no simulan operaciones.

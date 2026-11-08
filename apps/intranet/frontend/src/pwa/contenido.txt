@@ -1,0 +1,4 @@
+Integración de capacidades PWA del frontend.
+- `registerServiceWorker.ts`: registra el Service Worker generado por vite-plugin-pwa.
+- `..\..\vite.config.ts`: configura el manifiesto instalable, iconos y generación del Service Worker.
+- La precaché se limita a recursos estáticos de la aplicación; no se configuran cachés de respuestas privadas de la API.

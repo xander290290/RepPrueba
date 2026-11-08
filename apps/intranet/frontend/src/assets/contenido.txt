@@ -1,0 +1,3 @@
+Recursos que se importan desde los componentes React y se procesan durante el build de Vite.
+- Se reservará para imágenes, ilustraciones y otros recursos propios de la interfaz.
+- Los iconos de instalación y recursos estáticos públicos se guardan en `public\`.

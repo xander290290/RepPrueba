@@ -1,0 +1,9 @@
+Código fuente de la PWA de intranet:
+- `App.tsx` y `App.css`: pantalla inicial de la aplicación y sus estilos locales.
+- `main.tsx` e `index.css`: montaje de React y estilos globales/tokens visuales.
+- `components\`: componentes reutilizables, pantalla de acceso y aplicación autenticada.
+- `pages\`: vistas y rutas de la aplicación.
+- `lib\api.ts`: cliente HTTP tipado para la API de FastAPI.
+- `pwa\registerServiceWorker.ts`: registro del Service Worker generado por el plugin PWA.
+- `assets\`: recursos importados por el código fuente.
+- `vite-env.d.ts`: tipos de Vite, PWA y variables de entorno.

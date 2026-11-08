@@ -1,0 +1,4 @@
+Integración del frontend con servicios externos.
+- `api.ts`: cliente HTTP tipado para login, sesión, usuarios, roles y permisos de FastAPI.
+- La URL base se configura con `VITE_API_BASE_URL`; durante el desarrollo Vite reenvía `/api` al backend local.
+- Los tokens solo viven en memoria mientras la aplicación está abierta; el refresh token no se persiste.

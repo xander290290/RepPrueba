@@ -1,0 +1,4 @@
+Carpeta reservada para vistas con rutas propias si la aplicación crece.
+- Las pantallas iniciales de acceso y gestión se componen actualmente en `src\components\`.
+- Si se incorpora un enrutador, sus páginas y reglas de acceso se organizarán aquí.
+- Cada vista debe usar únicamente los endpoints necesarios de la API de intranet.
